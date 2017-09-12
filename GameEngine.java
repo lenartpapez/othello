@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class GameEngine {
 
 	Board board;
@@ -34,8 +36,8 @@ public class GameEngine {
             }
         } else {
             // down
-                if (checkFlip(x - 1, y, -1, 0, piece, opponent))
-                    flipPieces(x - 1, y, -1, 0, piece, opponent);
+            if (checkFlip(x + 1, y, 1, 0, piece, opponent))
+                flipPieces(x + 1, y, 1, 0, piece, opponent);
             if( y == 0 || y == 1) {
                 // right
                 if (checkFlip(x, y + 1, 0, 1, piece, opponent))
@@ -60,12 +62,14 @@ public class GameEngine {
 			while ((x >= 0) && (x < 4) && (y >= 0) && (y < 4)) {
 				x += deltaX;
 				y += deltaY;
+				if(x == 4 || y == 4) return false;
+				if(x == -1 || y == -1) return false;
 				if (board.board[x][y] == '.') // not consecutive
 					return false;
 				if (board.board[x][y] == myPiece)
 					return true; // At least one piece we can flip
 				else {
-					// It is an opponent piece, 2 keep scanning in our direction
+					// It is an opponent piece, keep scanning in our direction
 				}
 			}
 		}
@@ -84,7 +88,6 @@ public class GameEngine {
 
 		public boolean validMove(int x, int y, char piece) {
 			// Check that the coordinates are empty
-			if(x > 3 || y > 3) return false;
 			if (board.board[x][y] != '.')
 				return false;
 			// Figure out the character of the opponent's piece
@@ -112,7 +115,7 @@ public class GameEngine {
                     }
              } else {
                 // down
-                if (checkFlip(x - 1, y, -1, 0, piece, opponent))
+                if (checkFlip(x + 1, y, 1, 0, piece, opponent))
                     return true;
                 if( y == 0 || y == 1) {
                     // right
@@ -131,5 +134,39 @@ public class GameEngine {
                 }
             }
 			return false; // If we get here, we didn't find a valid flip direction
+		}
+
+		public ArrayList<Move> getMovesForPlayer(char piece) {
+			ArrayList<Move> moves = new ArrayList<>();
+			// Check each square of the board and if we can move there, remember the coords
+			for (int x = 0; x < 4; x++) {
+				for (int y = 0; y < 4; y++) {
+					if(board.board[x][y]=='.') {
+						if (validMove(x, y, piece)) {
+							moves.add(new Move(x,y));
+					 	}
+					}
+				}
+			}
+			return moves;
+		}
+
+		public boolean gameOver() {
+			ArrayList<Move> blackMoves = getMovesForPlayer('X');
+			ArrayList<Move> whiteMoves = getMovesForPlayer('O');
+			if ((blackMoves.size() == 0) && (whiteMoves.size() == 0)) return true;
+			return false;
+		}
+
+		public int getScoreForPlayer(char piece) {
+			int score = 0;
+			for (int x = 0; x < 4; x++) {
+				for (int y = 0; y < 4; y++) {
+					if(board.board[x][y]==piece) {
+						score++;
+					}
+				}
+			}
+			return score;
 		}
 }

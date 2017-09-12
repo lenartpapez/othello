@@ -4,8 +4,13 @@ import java.awt.event.*;
 
 public class UI {
 
+    JFrame f;
+    JButton l[][];
+    static int p=0;
+    Icon image0,image1;
+    JPanel p1;
+    
 	public UI() {
-
         f = new JFrame("OTHELLO");
         l = new JButton[4][4];
         f.setVisible(true);
@@ -36,19 +41,13 @@ public class UI {
         f.add(p1);
     }
 
-    JFrame f;
-    JButton l[][];
-    static int p=0;
-    Icon image0,image1;
-    JPanel p1;
-
     public void updateGUI(Board board) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if(board.board[i][j]==1) {
+                if(board.board[i][j] == 'X') {
                     l[i][j].setIcon(image0);
                     l[i][j].setEnabled(true);
-                } else if(board.board[i][j]==-1) {
+                } else if(board.board[i][j] == 'O') {
                     l[i][j].setIcon(image1);
                     l[i][j].setEnabled(true);
                 } else {
