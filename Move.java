@@ -8,6 +8,7 @@ class Move {
 		this.y = y;
 	}
 
+
 	public int getX() {
 		return x;
 	}

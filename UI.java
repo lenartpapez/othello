@@ -28,7 +28,7 @@ public class UI {
         {
             for(int j=0;j<4;j++)
             {
-                l[i][j]= new JButton();
+                l[i][j] = new JButton();
                 l[i][j].setSize(50,50);
                 l[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 l[i][j].setEnabled(true);
@@ -56,4 +56,10 @@ public class UI {
             }
         }
     }
+    
+    public void close() {
+        f.setVisible(false); //you can't see me!
+        f.dispose(); 
+    }
 }
+
